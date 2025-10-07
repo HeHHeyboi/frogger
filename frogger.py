@@ -4,10 +4,23 @@ import random as Random
 from pygame.locals import *
 from sys import exit
 
+pygame.init()
+pygame.font.init()
+pygame.mixer.pre_init(44100, 32, 2, 4096)
+screen = pygame.display.set_mode((448, 546), 0, 32)
+
+font_name = pygame.font.get_default_font()
+game_font = pygame.font.SysFont(font_name, 72)
+info_font = pygame.font.SysFont(font_name, 24)
+menu_font = pygame.font.SysFont(font_name, 36)
+hit_sound = pygame.mixer.Sound('./sounds/boom.wav')
+agua_sound = pygame.mixer.Sound('./sounds/agua.wav')
+chegou_sound = pygame.mixer.Sound('./sounds/success.wav')
+trilha_sound = pygame.mixer.Sound('./sounds/guimo.wav')
+
 enemys = []
 plataforms = []
 chegaram = []
-screen = pygame.display.set_mode((448, 546), 0, 32)
 # --- Carregando imagens ---
 background_filename = './images/bg.png'
 frog_filename = './images/sprite_sheets_up.png'
@@ -400,27 +413,6 @@ def nextLevel(chegaram, enemys, plataforms, frog, game):
 
 
 def main():
-    pygame.init()
-    pygame.font.init()
-    pygame.mixer.pre_init(44100, 32, 2, 4096)
-    global font_name
-    global game_font
-    global info_font
-    global menu_font
-    global hit_sound
-    global agua_sound
-    global chegou_sound
-    global trilha_sound
-
-    font_name = pygame.font.get_default_font()
-    game_font = pygame.font.SysFont(font_name, 72)
-    info_font = pygame.font.SysFont(font_name, 24)
-    menu_font = pygame.font.SysFont(font_name, 36)
-    hit_sound = pygame.mixer.Sound('./sounds/boom.wav')
-    agua_sound = pygame.mixer.Sound('./sounds/agua.wav')
-    chegou_sound = pygame.mixer.Sound('./sounds/success.wav')
-    trilha_sound = pygame.mixer.Sound('./sounds/guimo.wav')
-
     pygame.display.set_caption('Frogger')
     clock = pygame.time.Clock()
 
