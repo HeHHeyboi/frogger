@@ -4,17 +4,10 @@ import random as Random
 from pygame.locals import *
 from sys import exit
 
-pygame.init()
-pygame.font.init()
-pygame.mixer.pre_init(44100, 32, 2, 4096)
-
-font_name = pygame.font.get_default_font()
-game_font = pygame.font.SysFont(font_name, 72)
-info_font = pygame.font.SysFont(font_name, 24)
-menu_font = pygame.font.SysFont(font_name, 36)
-
+enemys = []
+plataforms = []
+chegaram = []
 screen = pygame.display.set_mode((448, 546), 0, 32)
-
 # --- Carregando imagens ---
 background_filename = './images/bg.png'
 frog_filename = './images/sprite_sheets_up.png'
@@ -37,13 +30,6 @@ sprite_car5 = pygame.image.load(car5_filename).convert_alpha()
 sprite_plataform = pygame.image.load(plataform_filename).convert_alpha()
 
 # --- Carregando Efeitos Sonoros ---
-hit_sound = pygame.mixer.Sound('./sounds/boom.wav')
-agua_sound = pygame.mixer.Sound('./sounds/agua.wav')
-chegou_sound = pygame.mixer.Sound('./sounds/success.wav')
-trilha_sound = pygame.mixer.Sound('./sounds/guimo.wav')
-
-pygame.display.set_caption('Frogger')
-clock = pygame.time.Clock()
 
 
 class Object():
@@ -209,7 +195,10 @@ class Game():
         self.time = 30
 
 
-#Funções gerais
+game = Game(3, 1)
+
+
+# Funções gerais
 def drawList(list):
     for i in list:
         i.draw()
@@ -324,7 +313,7 @@ def frogOnTheStreet(frog, enemys, game):
 
 
 def frogInTheLake(frog, plataforms, game):
-    #se o sapo esta sob alguma plataforma Seguro = 1
+    # se o sapo esta sob alguma plataforma Seguro = 1
     seguro = 0
     wayPlataform = ""
     for i in plataforms:
@@ -375,15 +364,15 @@ def frogArrived(frog, chegaram, game):
 
 
 def whereIsTheFrog(frog):
-    #Se o sapo ainda não passou da estrada
+    # Se o sapo ainda não passou da estrada
     if frog.position[1] > 240:
         frogOnTheStreet(frog, enemys, game)
 
-    #Se o sapo chegou no rio
+    # Se o sapo chegou no rio
     elif frog.position[1] < 240 and frog.position[1] > 40:
         frogInTheLake(frog, plataforms, game)
 
-    #sapo chegou no objetivo
+    # sapo chegou no objetivo
     elif frog.position[1] < 40:
         frogArrived(frog, chegaram, game)
 
@@ -410,113 +399,138 @@ def nextLevel(chegaram, enemys, plataforms, frog, game):
         game.resetTime()
 
 
-trilha_sound.play(-1)
-text_info = menu_font.render(('Press any button to start!'), 1, (0, 0, 0))
-gameInit = 0
+def main():
+    pygame.init()
+    pygame.font.init()
+    pygame.mixer.pre_init(44100, 32, 2, 4096)
+    global font_name
+    global game_font
+    global info_font
+    global menu_font
+    global hit_sound
+    global agua_sound
+    global chegou_sound
+    global trilha_sound
 
-while gameInit == 0:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            exit()
-        if event.type == KEYDOWN:
-            gameInit = 1
+    font_name = pygame.font.get_default_font()
+    game_font = pygame.font.SysFont(font_name, 72)
+    info_font = pygame.font.SysFont(font_name, 24)
+    menu_font = pygame.font.SysFont(font_name, 36)
+    hit_sound = pygame.mixer.Sound('./sounds/boom.wav')
+    agua_sound = pygame.mixer.Sound('./sounds/agua.wav')
+    chegou_sound = pygame.mixer.Sound('./sounds/success.wav')
+    trilha_sound = pygame.mixer.Sound('./sounds/guimo.wav')
 
-    screen.blit(background, (0, 0))
-    screen.blit(text_info, (80, 150))
-    pygame.display.update()
+    pygame.display.set_caption('Frogger')
+    clock = pygame.time.Clock()
 
-while True:
-    gameInit = 1
-    game = Game(3, 1)
-    key_up = 1
-    frog_initial_position = [207, 475]
-    frog = Frog(frog_initial_position, sprite_sapo)
+    trilha_sound.play(-1)
+    text_info = menu_font.render(('Press any button to start!'), 1, (0, 0, 0))
+    gameInit = 0
 
-    enemys = []
-    plataforms = []
-    chegaram = []
-    #30 ticks == 1 segundo
-    #ticks_enemys = [120, 90, 120, 90, 150]
-    #ticks_plataforms = [90, 90, 120, 120, 60]
-    ticks_enemys = [30, 0, 30, 0, 60]
-    ticks_plataforms = [0, 0, 30, 30, 30]
-    ticks_time = 30
-    pressed_keys = 0
-    key_pressed = 0
-
-    while frog.lives > 0:
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                exit()
-            if event.type == KEYUP:
-                key_up = 1
-            if event.type == KEYDOWN:
-                if key_up == 1 and frog.can_move == 1:
-                    key_pressed = pygame.key.name(event.key)
-                    frog.moveFrog(key_pressed, key_up)
-                    frog.cannotMove()
-        if not ticks_time:
-            ticks_time = 30
-            game.decTime()
-        else:
-            ticks_time -= 1
-
-        if game.time == 0:
-            frog.frogDead(game)
-
-        createEnemys(ticks_enemys, enemys, game)
-        createPlataform(ticks_plataforms, plataforms, game)
-
-        moveList(enemys, game.speed)
-        moveList(plataforms, game.speed)
-
-        whereIsTheFrog(frog)
-
-        nextLevel(chegaram, enemys, plataforms, frog, game)
-
-        text_info1 = info_font.render(
-            ('Level: {0}               Points: {1}'.format(
-                game.level, game.points)), 1, (255, 255, 255))
-        text_info2 = info_font.render(
-            ('Time: {0}           Lifes: {1}'.format(game.time, frog.lives)),
-            1, (255, 255, 255))
-        screen.blit(background, (0, 0))
-        screen.blit(text_info1, (10, 520))
-        screen.blit(text_info2, (250, 520))
-
-        random = Random.randint(0, 100)
-        if (random % 100 == 0):
-            carChangeRoad(enemys)
-
-        drawList(enemys)
-        drawList(plataforms)
-        drawList(chegaram)
-
-        frog.animateFrog(key_pressed, key_up)
-        frog.draw()
-
-        destroyEnemys(enemys)
-        destroyPlataforms(plataforms)
-
-        pygame.display.update()
-        time_passed = clock.tick(30)
-
-    while gameInit == 1:
+    while gameInit == 0:
         for event in pygame.event.get():
             if event.type == QUIT:
                 exit()
             if event.type == KEYDOWN:
-                gameInit = 0
+                gameInit = 1
 
         screen.blit(background, (0, 0))
-        text = game_font.render('GAME OVER', 1, (255, 0, 0))
-        text_points = game_font.render(('Pontuação: {0}'.format(game.points)),
-                                       1, (255, 0, 0))
-        text_reiniciar = info_font.render(
-            'Pressione qualquer tecla para reiniciar!', 1, (255, 0, 0))
-        screen.blit(text, (75, 120))
-        screen.blit(text_points, (10, 170))
-        screen.blit(text_reiniciar, (70, 250))
-
+        screen.blit(text_info, (80, 150))
         pygame.display.update()
+
+    while True:
+        gameInit = 1
+        key_up = 1
+        frog_initial_position = [207, 475]
+        frog = Frog(frog_initial_position, sprite_sapo)
+
+        # 30 ticks == 1 segundo
+        # ticks_enemys = [120, 90, 120, 90, 150]
+        # ticks_plataforms = [90, 90, 120, 120, 60]
+        ticks_enemys = [30, 0, 30, 0, 60]
+        ticks_plataforms = [0, 0, 30, 30, 30]
+        ticks_time = 30
+        pressed_keys = 0
+        key_pressed = 0
+
+        while frog.lives > 0:
+
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    exit()
+                if event.type == KEYUP:
+                    key_up = 1
+                if event.type == KEYDOWN:
+                    if key_up == 1 and frog.can_move == 1:
+                        key_pressed = pygame.key.name(event.key)
+                        frog.moveFrog(key_pressed, key_up)
+                        frog.cannotMove()
+            if not ticks_time:
+                ticks_time = 30
+                game.decTime()
+            else:
+                ticks_time -= 1
+
+            if game.time == 0:
+                frog.frogDead(game)
+
+            createEnemys(ticks_enemys, enemys, game)
+            createPlataform(ticks_plataforms, plataforms, game)
+
+            moveList(enemys, game.speed)
+            moveList(plataforms, game.speed)
+
+            whereIsTheFrog(frog)
+
+            nextLevel(chegaram, enemys, plataforms, frog, game)
+
+            text_info1 = info_font.render(
+                ('Level: {0}               Points: {1}'.format(
+                    game.level, game.points)), 1, (255, 255, 255))
+            text_info2 = info_font.render(
+                ('Time: {0}           Lifes: {1}'.format(
+                    game.time, frog.lives)), 1, (255, 255, 255))
+            screen.blit(background, (0, 0))
+            screen.blit(text_info1, (10, 520))
+            screen.blit(text_info2, (250, 520))
+
+            random = Random.randint(0, 100)
+            if (random % 100 == 0):
+                carChangeRoad(enemys)
+
+            drawList(enemys)
+            drawList(plataforms)
+            drawList(chegaram)
+
+            frog.animateFrog(key_pressed, key_up)
+            frog.draw()
+
+            destroyEnemys(enemys)
+            destroyPlataforms(plataforms)
+
+            pygame.display.update()
+            time_passed = clock.tick(30)
+
+        while gameInit == 1:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    exit()
+                if event.type == KEYDOWN:
+                    gameInit = 0
+
+            screen.blit(background, (0, 0))
+            text = game_font.render('GAME OVER', 1, (255, 0, 0))
+            text_points = game_font.render(
+                ('Pontuação: {0}'.format(game.points)), 1, (255, 0, 0))
+            text_reiniciar = info_font.render(
+                'Pressione qualquer tecla para reiniciar!', 1, (255, 0, 0))
+            screen.blit(text, (75, 120))
+            screen.blit(text_points, (10, 170))
+            screen.blit(text_reiniciar, (70, 250))
+
+            pygame.display.update()
+
+
+if __name__ == "__main__":
+    main()
