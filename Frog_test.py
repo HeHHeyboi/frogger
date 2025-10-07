@@ -4,7 +4,7 @@ from frogger import *
 frog = Frog([0, 0], sprite_sapo)
 CAR_POS = [100, 100]
 enemy = Enemy(CAR_POS, sprite_car1, "right", 1)
-game = Game(0, 0)
+game = Game(3, 0)
 
 
 @pytest.mark.parametrize(["dir", "pos", "anim_counter", "expected"], [
@@ -49,3 +49,45 @@ def test_frog_collide_with_car(frog_pos, expected_pos, expected_life):
     frogOnTheStreet(frog, enemys, game)
     assert frog.position == expected_pos
     assert frog.lives == expected_life
+
+
+@pytest.mark.parametrize(
+    ["frog_pos", "wood_pos", "dir", "expected_pos", "expected_life"], [
+        ([100, 100], [100, 100], "left", [97, 100], 3),
+        ([100, 100], [100, 100], "right", [103, 100], 3),
+        ([70, 100], [100, 100], "left", [207, 475], 2),
+    ])
+def test_frog_on_wood(frog_pos, wood_pos, dir, expected_pos, expected_life):
+    frog.setPos(frog_pos)
+    frog.lives = 3
+    wood = Plataform(wood_pos, sprite_plataform, dir)
+    woods = [wood]
+    frogInTheLake(frog, woods, game)
+    assert frog.position == expected_pos
+    assert frog.lives == expected_life
+
+
+@pytest.mark.parametrize(
+    ["frog_pos", "expected_pos", "is_arrived_empty", "frog_arrived_pos"], [
+        ([43, 46], [207, 475], False, [43, 7]),
+        ([120, 46], [207, 475], False, [125, 7]),
+        ([200, 46], [207, 475], False, [207, 7]),
+        ([280, 46], [207, 475], False, [289, 7]),
+        ([370, 46], [207, 475], False, [371, 7]),
+        ([30, 46], [30, 46], True, None),
+        ([60, 46], [60, 46], True, None),
+        ([140, 46], [140, 46], True, None),
+        ([220, 46], [220, 46], True, None),
+        ([300, 46], [300, 46], True, None),
+        ([400, 46], [400, 46], True, None),
+    ])
+def test_frog_arrived(frog_pos, expected_pos, is_arrived_empty,
+                      frog_arrived_pos):
+    frog.setPos(frog_pos)
+    arrived = []
+    game = Game(3, 0)
+    frogArrived(frog, arrived, game)
+    assert frog.position == expected_pos
+    assert (not arrived) == is_arrived_empty
+    if arrived:
+        assert arrived[0].position == frog_arrived_pos
