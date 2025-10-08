@@ -14,21 +14,23 @@ game = Game(3, 0)
     ("down", [100, 100], 0, [100, 113]),
     ("down", [100, 38], 0, [100, 51]),
     ("down", [100, 474], 0, [100, 474]),
-    ("left", [100, 100], 0, [87, 100]),
-    ("left", [100, 100], 2, [86, 100]),
+    ("left", [100, 100], 0, [86, 100]),
+    ("left", [100, 100], 2, [87, 100]),
     ("left", [1, 100], 0, [1, 100]),
-    ("left", [402, 100], 0, [389, 100]),
-    ("left", [402, 100], 2, [388, 100]),
-    ("right", [100, 100], 0, [113, 100]),
-    ("right", [100, 100], 2, [114, 100]),
-    ("right", [1, 100], 0, [14, 100]),
-    ("right", [1, 100], 2, [15, 100]),
+    ("left", [402, 100], 0, [388, 100]),
+    ("left", [402, 100], 2, [389, 100]),
+    ("right", [100, 100], 0, [114, 100]),
+    ("right", [100, 100], 2, [113, 100]),
+    ("right", [1, 100], 0, [15, 100]),
+    ("right", [1, 100], 2, [14, 100]),
     ("right", [402, 100], 0, [402, 100]),
 ])
 def test_moveFrog(dir, pos, anim_counter, expected):
     frog.animation_counter = anim_counter
+    print("Before", frog.animation_counter)
     frog.position = pos.copy()
     frog.moveFrog(dir, 1)
+    print("after", frog.animation_counter)
     assert frog.position == expected
 
 
@@ -91,3 +93,15 @@ def test_frog_arrived(frog_pos, expected_pos, is_arrived_empty,
     assert (not arrived) == is_arrived_empty
     if arrived:
         assert arrived[0].position == frog_arrived_pos
+
+
+@pytest.mark.parametrize(["allFrogArrived", "current_level", "expected_level"],
+                         [([1, 2, 3, 4, 5], 1, 2), ([1, 2, 3, 4, 5], 5, 5),
+                          ([], 1, 1), ([], 5, 5),
+                          ([1, 2, 3, 4, 5], 6, -1)])  # -1 mean invalid
+def test_all_frog_arrived(allFrogArrived, current_level, expected_level):
+    game.level = current_level
+    enemys = []
+    platform = []
+    nextLevel(allFrogArrived, enemys, platform, frog, game)
+    assert game.level == expected_level
