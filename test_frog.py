@@ -1,10 +1,10 @@
 import pytest
-from frogger import *
+from game import frogger
 
-frog = Frog([0, 0], sprite_sapo)
+frog = frogger.Frog([0, 0], frogger.sprite_sapo)
 CAR_POS = [100, 100]
-enemy = Enemy(CAR_POS, sprite_car1, "right", 1)
-game = Game(3, 0)
+enemy = frogger.Enemy(CAR_POS, frogger.sprite_car1, "right", 1)
+game = frogger.Game(3, 0)
 
 
 @pytest.mark.parametrize(["dir", "pos", "anim_counter", "expected"], [
@@ -48,7 +48,7 @@ def test_frog_collide_with_car(frog_pos, expected_pos, expected_life):
     frog.setPos(frog_pos)
     frog.lives = 3
     enemys = [enemy]
-    frogOnTheStreet(frog, enemys, game)
+    frogger.frogOnTheStreet(frog, enemys, game)
     assert frog.position == expected_pos
     assert frog.lives == expected_life
 
@@ -62,9 +62,9 @@ def test_frog_collide_with_car(frog_pos, expected_pos, expected_life):
 def test_frog_on_wood(frog_pos, wood_pos, dir, expected_pos, expected_life):
     frog.setPos(frog_pos)
     frog.lives = 3
-    wood = Plataform(wood_pos, sprite_plataform, dir)
+    wood = frogger.Plataform(wood_pos, frogger.sprite_plataform, dir)
     woods = [wood]
-    frogInTheLake(frog, woods, game)
+    frogger.frogInTheLake(frog, woods, game)
     assert frog.position == expected_pos
     assert frog.lives == expected_life
 
@@ -87,21 +87,27 @@ def test_frog_arrived(frog_pos, expected_pos, is_arrived_empty,
                       frog_arrived_pos):
     frog.setPos(frog_pos)
     arrived = []
-    game = Game(3, 0)
-    frogArrived(frog, arrived, game)
+    game = frogger.Game(3, 0)
+    frogger.frogArrived(frog, arrived, game)
     assert frog.position == expected_pos
     assert (not arrived) == is_arrived_empty
     if arrived:
         assert arrived[0].position == frog_arrived_pos
 
 
-@pytest.mark.parametrize(["allFrogArrived", "current_level", "expected_level"],
-                         [([1, 2, 3, 4, 5], 1, 2), ([1, 2, 3, 4, 5], 5, 5),
-                          ([], 1, 1), ([], 5, 5),
-                          ([1, 2, 3, 4, 5], 6, -1)])  # -1 mean invalid
+@pytest.mark.parametrize(
+    ["allFrogArrived", "current_level", "expected_level"],
+    [
+        ([1, 2, 3, 4, 5], 1, 2),
+        ([1, 2, 3, 4, 5], 5, 5),
+        ([], 1, 1),
+        ([], 5, 5),
+        ([1, 2, 3, 4, 5], 6, -1),
+    ],
+)  # -1 mean invalid
 def test_all_frog_arrived(allFrogArrived, current_level, expected_level):
     game.level = current_level
     enemys = []
     platform = []
-    nextLevel(allFrogArrived, enemys, platform, frog, game)
+    frogger.nextLevel(allFrogArrived, enemys, platform, frog, game)
     assert game.level == expected_level

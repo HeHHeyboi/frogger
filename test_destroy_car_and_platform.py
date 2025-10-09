@@ -1,7 +1,7 @@
-from frogger import *
 import pytest
+from game import frogger
 
-game = Game(3, 1)
+game = frogger.Game(3, 1)
 
 
 @pytest.mark.parametrize(
@@ -19,9 +19,9 @@ def test_destroy_car(enemy_pos_x_list, expected_size, expected_array):
     result_pos_x = []
     enemys = []
     for i in enemy_pos_x_list:
-        enemys.append(Enemy([i, 0], sprite_car1, "left", 1))
+        enemys.append(frogger.Enemy([i, 0], frogger.sprite_car1, "left", 1))
 
-    destroyEnemys(enemys)
+    frogger.destroyEnemys(enemys)
     for enemy in enemys:
         result_pos_x.append(enemy.position[0])
 
@@ -38,9 +38,9 @@ def test_destroy_car_multiple_time(enemy_pos_x_list, expected_size,
     result_pos_x = []
     enemys = []
     for i in enemy_pos_x_list:
-        enemys.append(Enemy([i, 0], sprite_car1, "left", 1))
-    destroyEnemys(enemys)
-    destroyEnemys(enemys)
+        enemys.append(frogger.Enemy([i, 0], frogger.sprite_car1, "left", 1))
+    frogger.destroyEnemys(enemys)
+    frogger.destroyEnemys(enemys)
     for enemy in enemys:
         result_pos_x.append(enemy.position[0])
     assert len(result_pos_x) == expected_size
@@ -62,9 +62,10 @@ def test_destroy_platform(platform_pos_x_list, expected_size, expected_array):
     result_pos_x = []
     platforms = []
     for i in platform_pos_x_list:
-        platforms.append(Plataform([i, 0], sprite_plataform, "left"))
+        platforms.append(
+            frogger.Plataform([i, 0], frogger.sprite_plataform, "left"))
 
-    destroyPlataforms(platforms)
+    frogger.destroyPlataforms(platforms)
     for platform in platforms:
         result_pos_x.append(platform.position[0])
 
@@ -81,10 +82,11 @@ def test_destroy_platfrom_multiple_time(platform_pos_x_list, expected_size,
     result_pos_x = []
     platforms = []
     for i in platform_pos_x_list:
-        platforms.append(Plataform([i, 0], sprite_plataform, "left"))
+        platforms.append(
+            frogger.Plataform([i, 0], frogger.sprite_plataform, "left"))
 
-    destroyPlataforms(platforms)
-    destroyPlataforms(platforms)
+    frogger.destroyPlataforms(platforms)
+    frogger.destroyPlataforms(platforms)
     for platform in platforms:
         result_pos_x.append(platform.position[0])
 
