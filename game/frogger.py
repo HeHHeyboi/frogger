@@ -8,11 +8,13 @@ pygame.init()
 pygame.font.init()
 pygame.mixer.pre_init(44100, 32, 2, 4096)
 screen = pygame.display.set_mode((448, 546), 0, 32)
+pygame.display.set_caption('Frogger')
 
 font_name = pygame.font.get_default_font()
 game_font = pygame.font.SysFont(font_name, 72)
 info_font = pygame.font.SysFont(font_name, 24)
 menu_font = pygame.font.SysFont(font_name, 36)
+
 hit_sound = pygame.mixer.Sound('./sounds/boom.wav')
 agua_sound = pygame.mixer.Sound('./sounds/agua.wav')
 chegou_sound = pygame.mixer.Sound('./sounds/success.wav')
@@ -413,7 +415,6 @@ def nextLevel(chegaram, enemys, plataforms, frog, game):
 
 
 def main():
-    pygame.display.set_caption('Frogger')
     clock = pygame.time.Clock()
 
     trilha_sound.play(-1)

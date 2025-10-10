@@ -1,50 +1,15 @@
 import pytest
 from game import frogger
 
-game = frogger.Game(3, 1)
+game = frogger.Game(0, 1)
 
 
-@pytest.mark.parametrize(
-    ["enemy_pos_x_list", "expected_size", "expected_array"], [
-        ([-81], 0, []),
-        ([-80], 1, [-80]),
-        ([517], 0, []),
-        ([516], 1, [516]),
-        ([-1000, 0, 9999], 1, [0]),
-        ([-81, 0, -82, 10, 517, 20], 3, [-0, 10, 20]),
-        ([], 0, []),
-        ([-79, 517, 516, -80], 3, [-79, 516, -80]),
-    ])
-def test_destroy_car(enemy_pos_x_list, expected_size, expected_array):
-    result_pos_x = []
-    enemys = []
-    for i in enemy_pos_x_list:
-        enemys.append(frogger.Enemy([i, 0], frogger.sprite_car1, "left", 1))
-
-    frogger.destroyEnemys(enemys)
-    for enemy in enemys:
-        result_pos_x.append(enemy.position[0])
-
-    assert len(result_pos_x) == expected_size
-    assert result_pos_x == expected_array
-
-
-@pytest.mark.parametrize(
-    ["enemy_pos_x_list", "expected_size", "expected_array"], [
-        ([-81, 0], 1, [0]),
-    ])
-def test_destroy_car_multiple_time(enemy_pos_x_list, expected_size,
-                                   expected_array):
-    result_pos_x = []
-    enemys = []
-    for i in enemy_pos_x_list:
-        enemys.append(frogger.Enemy([i, 0], frogger.sprite_car1, "left", 1))
-    frogger.destroyEnemys(enemys)
-    frogger.destroyEnemys(enemys)
-    for enemy in enemys:
-        result_pos_x.append(enemy.position[0])
-    assert len(result_pos_x) == expected_size
-    assert result_pos_x == expected_array
+@pytest.mark.parametrize(["tick", "expected_size"], [(0, 1), (10, 0)])
+def test_create_platform(tick, expected_size):
+    ticks_plataforms = [tick]
+    plataforms = []
+    frogger.createPlataform(ticks_plataforms, plataforms, game)
+    assert len(plataforms) == expected_size
 
 
 @pytest.mark.parametrize(
