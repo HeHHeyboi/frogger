@@ -18,7 +18,16 @@ def live_is_zero():
 
 
 def time_up():
-    pass
+    original_game_init = frogger.Game.__init__
+    original_frog_init = frogger.Frog.__init__
+
+    def new_frog_init(self, position, sprite):
+        original_frog_init(self, position, sprite)
+        self.lives = 1
+
+    with patch.object(frogger.Frog, "__init__", new_frog_init):
+        frogger.game.time = 1
+        frogger.main()
 
 
 choice = input("select Scenario (1-3)\n")
@@ -28,6 +37,6 @@ match choice:
     case "2":
         live_is_zero()
     case "3":
-        pass
+        time_up()
     case _:
         pass
