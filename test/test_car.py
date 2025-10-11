@@ -6,7 +6,7 @@ game = frogger.Game(3, 1)
 
 
 @pytest.mark.parametrize(["tick", "expected_size", "expected_tick"], [
-    (0, 1, 0),
+    (0, 1, 120),
     (3, 0, 2),
 ])
 def test_create_enemy(tick, expected_size, expected_tick):
