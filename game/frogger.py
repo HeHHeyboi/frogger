@@ -510,7 +510,8 @@ def main():
                 if event.type == QUIT:
                     exit()
                 if event.type == KEYDOWN:
-                    gameInit = 0
+                    if event.key == pygame.K_RETURN:
+                        gameInit = 0
 
             screen.blit(background, (0, 0))
             text = game_font.render('GAME OVER', 1, (255, 0, 0))
