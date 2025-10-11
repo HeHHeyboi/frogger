@@ -63,20 +63,6 @@ def test_vehicle_and_platform_wrapping_all_directions(cls, direction, wrap_from,
 
 # ---- Test 3: Drown (no platform) and platform carry - also test river carry out-of-bounds ----
 
-# def test_player_is_carried_by_platform(game):
-#     # Place player on river row atop a platform
-#     river_lane = game.river_lanes[0]
-#     plat = next(obj for obj in river_lane.objects if isinstance(obj, frogger.Platform))
-#     # Align platform with player
-#     game.player.set_position(round(plat.x), plat.rect.y)
-#     prev_x = game.player.rect.x
-#     dt = 1.0
-#     game.update(dt)
-#     # Player should not die, and should move by plat.vx
-#     assert game.state == "PLAYING"
-#     assert game.player.on_platform == plat
-#     assert game.player.rect.x == prev_x + int(round(plat.vx * dt))
-
 def test_player_is_carried_by_platform(game):
     """Ensure player is carried horizontally by a platform, and on_platform is set."""
     river_lane = game.river_lanes[0]
@@ -109,24 +95,6 @@ def test_player_drowns_in_river(game):
     assert game.lives == prev_lives - 1
     assert game.last_death_reason == "drown"
 
-
-# def test_player_carried_off_screen_by_platform(game):
-#     # Place player on rightmost river lane, on a right-moving platform close to right edge
-#     test_lane = frogger.Lane(y=frogger.RIVER_Y_TOP, kind="river", direction=1, speed=200, count=1)
-#     test_lane.build()
-#     plat = test_lane.objects[0]
-#     row_y = plat.rect.y
-#     # Put platform just before right edge, player on it
-#     plat.x = frogger.SCREEN_WIDTH - plat.w // 2
-#     plat.sync_rect()
-#     game.player.set_position(plat.rect.x, row_y)
-#     # Replace lanes so player is only atop this test platform
-#     game.river_lanes = [test_lane]
-
-#     prev_lives = game.lives
-#     game.update(0.5)  # dt long enough to force carry past edge
-#     assert game.lives == prev_lives - 1
-#     assert game.last_death_reason == "out_of_bounds"
 
 
 def test_player_carried_off_screen_by_platform(game):
