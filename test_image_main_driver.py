@@ -1,7 +1,7 @@
 from game import frogger
 
 
-def all_image_load():
+def test_all_image_load():
     try:
         frogger.main()
     except SystemExit:
