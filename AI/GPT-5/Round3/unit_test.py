@@ -4,7 +4,7 @@ import pytest
 
 # Headless pygame setup BEFORE importing frogger
 os.environ['SDL_VIDEODRIVER'] = 'dummy'
-import frogger
+import code as frogger  # Import the game code to be tested
 
 
 @pytest.fixture(autouse=True)

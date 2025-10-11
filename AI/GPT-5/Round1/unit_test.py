@@ -18,7 +18,7 @@ import math
 import pygame
 import pytest
 
-import frogger
+import code as frogger  # Import the game code to be tested
 
 
 @pytest.fixture(autouse=True)

@@ -10,7 +10,7 @@ import pytest
 
 from unittest.mock import Mock, patch
 
-from frogger import GRID_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, Colors, Direction, Frog, FroggerGame, GameObject, GameState, Home, Log, Turtle, Vehicle
+from code import GRID_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, Colors, Direction, Frog, FroggerGame, GameObject, GameState, Home, Log, Turtle, Vehicle
 
 
 class TestGameState:
@@ -921,7 +921,7 @@ class TestMainFunction:
     @patch('frogger.FroggerGame')
     def test_main(self, mock_game_class):
         """ทดสอบ main function"""
-        from frogger import main
+        from code import main
         
         # Mock game instance
         mock_game = Mock()

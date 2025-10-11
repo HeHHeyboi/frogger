@@ -1,7 +1,7 @@
 import pygame
 import pytest
 from unittest.mock import MagicMock, patch
-from frogger import (
+from code import (
     Game, Frog, MovingObject, Turtle, GameObject,
     SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE, TOTAL_HOMES, MAX_LIVES, LEVEL_START_TIME
 )

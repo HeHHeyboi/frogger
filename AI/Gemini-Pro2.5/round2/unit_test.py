@@ -2,7 +2,7 @@ import pytest
 import pygame
 from unittest.mock import MagicMock, call
 # Import classes from the game code
-from frogger import (
+from code import (
     Game, Frog, MovingObject, Turtle, GameObject,
     SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE, TOTAL_HOMES, MAX_LIVES
 )

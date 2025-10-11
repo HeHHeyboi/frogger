@@ -5,7 +5,7 @@
 import pygame
 import pytest
 from unittest.mock import Mock, patch
-from frogger import (
+from code import (
     Game, Frog, MovingObject, Turtle, GameObject,
     SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE
 )
@@ -323,7 +323,7 @@ def test_main_guard(mock_game_class):
         mock_game_instance = mock_game_class.return_value
         
         # Import ไฟล์ frogger เพื่อให้โค้ดใน main guard ทำงาน
-        from frogger import __main__ as frogger_main
+        from code import __main__ as frogger_main
         
         mock_game_class.assert_called_once()
         mock_game_instance.run.assert_called_once()

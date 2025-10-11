@@ -7,7 +7,7 @@ Complete test suite with 100% statement and branch coverage
 import pytest
 import pygame
 from unittest.mock import Mock, patch, MagicMock
-from frogger import (
+from code import (
     GameObject, Frog, Vehicle, Log, Turtle, Home,
     GameState, FroggerGame, Direction, Colors,
     SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE, main
