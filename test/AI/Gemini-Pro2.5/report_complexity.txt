@@ -1,0 +1,23 @@
+unit_test.py
+    C 86:0 TestMovingObjects - A (5)
+    C 37:0 TestFrog - A (4)
+    M 40:4 TestFrog.test_frog_initialization - A (4)
+    M 47:4 TestFrog.test_frog_movement - A (4)
+    M 61:4 TestFrog.test_frog_attach_and_detach - A (4)
+    M 101:4 TestMovingObjects.test_turtle_diving_cycle - A (4)
+    M 168:4 TestGameCollisionsAndLogic.test_frog_reaches_empty_home_TS004 - A (4)
+    M 193:4 TestGameCollisionsAndLogic.test_level_complete - A (4)
+    M 89:4 TestMovingObjects.test_object_wraps_around_screen - A (3)
+    C 115:0 TestGameCollisionsAndLogic - A (3)
+    M 118:4 TestGameCollisionsAndLogic.test_frog_hit_by_car_TS002 - A (3)
+    M 133:4 TestGameCollisionsAndLogic.test_frog_safe_on_log_TS003 - A (3)
+    M 218:4 TestGameCollisionsAndLogic.test_game_over - A (3)
+    M 73:4 TestFrog.test_frog_moves_with_platform - A (2)
+    M 146:4 TestGameCollisionsAndLogic.test_frog_drowns_in_water - A (2)
+    M 156:4 TestGameCollisionsAndLogic.test_frog_drowns_on_diving_turtle - A (2)
+    M 182:4 TestGameCollisionsAndLogic.test_frog_hits_filled_home - A (2)
+    M 207:4 TestGameCollisionsAndLogic.test_time_runs_out - A (2)
+    F 14:0 game - A (1)
+
+19 blocks (classes, functions, methods) analyzed.
+Average complexity: A (3.1052631578947367)

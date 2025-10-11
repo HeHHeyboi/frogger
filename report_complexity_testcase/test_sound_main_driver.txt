@@ -1,0 +1,7 @@
+test_sound_main_driver.py
+    F 5:0 test_all_sound_available - A (2)
+    F 13:0 test_some_sound_available - A (2)
+    F 24:0 test_all_sound_unavailable - A (2)
+
+3 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.0)

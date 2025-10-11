@@ -1,0 +1,20 @@
+chatgpt_unit_test_1.py
+    F 122:0 test_platform_carry_and_drowning - C (11)
+    F 199:0 test_obstacle_and_platform_update_and_wrap - B (7)
+    F 237:0 test_lane_build_and_increase_speed - B (7)
+    F 51:0 test_player_move_all_directions_and_forward_score - B (6)
+    F 97:0 test_collision_with_vehicle_and_no_collision - B (6)
+    F 163:0 test_home_scoring_and_level_up - B (6)
+    F 188:0 test_game_over_state_transition - A (5)
+    F 71:0 test_player_boundary_restriction_and_out_of_bounds_death - A (4)
+    F 83:0 test_player_reset_function - A (4)
+    F 224:0 test_start_screen_and_restart - A (4)
+    F 249:0 test_helper_in_rect_bounds - A (4)
+    F 155:0 test_timeout_death - A (3)
+    F 25:0 pygame_init_teardown - A (1)
+    F 34:0 game - A (1)
+    F 46:0 make_key_event - A (1)
+    F 91:0 move_player_to_row - A (1)
+
+16 blocks (classes, functions, methods) analyzed.
+Average complexity: A (4.4375)

@@ -1,0 +1,10 @@
+test_car.py
+    F 77:0 test_car_change_road - B (7)
+    F 111:0 test_car_change_road_multiple_time - B (7)
+    F 31:0 test_destroy_car - A (5)
+    F 49:0 test_destroy_car_multiple_time - A (5)
+    F 12:0 test_create_enemy - A (3)
+    F 97:0 test_empty_car_list - A (2)
+
+6 blocks (classes, functions, methods) analyzed.
+Average complexity: A (4.833333333333333)

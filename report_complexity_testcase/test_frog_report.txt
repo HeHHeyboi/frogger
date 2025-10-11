@@ -1,0 +1,9 @@
+test_frog.py
+    F 86:0 test_frog_arrived - A (5)
+    F 47:0 test_frog_collide_with_car - A (3)
+    F 62:0 test_frog_on_wood - A (3)
+    F 28:0 test_moveFrog - A (2)
+    F 108:0 test_all_frog_arrived - A (2)
+
+5 blocks (classes, functions, methods) analyzed.
+Average complexity: A (3.0)
