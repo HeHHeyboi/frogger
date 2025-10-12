@@ -17,3 +17,5 @@
 
 ### index.html ในแต่ละอัน folder htmlcov สำหรับดูผลลัพธ์ coverage ของ unit test 
 
+### Presentation Link
+https://www.canva.com/design/DAG1fcI0MVI/lbAljGMGLkfuk-tgYKyJsg/view?utm_content=DAG1fcI0MVI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2ea52beea2
