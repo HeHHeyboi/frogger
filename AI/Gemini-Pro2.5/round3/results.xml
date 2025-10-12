@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="41" time="0.917" timestamp="2025-10-12T13:42:03.143324+07:00" hostname="CPCOM"><testcase classname="unit_test.TestGameObject" name="test_init" time="0.002" /><testcase classname="unit_test.TestGameObject" name="test_draw" time="0.005" /><testcase classname="unit_test.TestFrog" name="test_init" time="0.001" /><testcase classname="unit_test.TestFrog" name="test_move" time="0.001" /><testcase classname="unit_test.TestFrog" name="test_attach_detach" time="0.001" /><testcase classname="unit_test.TestFrog" name="test_update_position_on_platform" time="0.002"><failure message="assert 113 == (110 + 2.5)&#10; +  where 113 = &lt;rect(113, 560, 40, 40)&gt;.x&#10; +    where &lt;rect(113, 560, 40, 40)&gt; = &lt;code.Frog object at 0x000002548991A720&gt;.rect">self = &lt;unit_test.TestFrog object at 0x00000254888BF200&gt;, frog_instance = &lt;code.Frog object at 0x000002548991A720&gt;
+
+    def test_update_position_on_platform(self, frog_instance):
+        """ทดสอบการอัปเดตตำแหน่งเมื่อเกาะบน platform"""
+        platform = MovingObject(100, 100, 80, 40, (0,0,0), speed=2.5)
+        frog_instance.rect.x = 110
+        frog_instance.attach_to(platform)
+    
+        # กบควรเคลื่อนที่ตามความเร็วของ platform
+        frog_instance.update_position_on_platform()
+&gt;       assert frog_instance.rect.x == 110 + 2.5
+E       assert 113 == (110 + 2.5)
+E        +  where 113 = &lt;rect(113, 560, 40, 40)&gt;.x
+E        +    where &lt;rect(113, 560, 40, 40)&gt; = &lt;code.Frog object at 0x000002548991A720&gt;.rect
+
+unit_test.py:98: AssertionError</failure></testcase><testcase classname="unit_test.TestFrog" name="test_update_position_not_on_platform" time="0.001" /><testcase classname="unit_test.TestFrog" name="test_reset_position" time="0.001" /><testcase classname="unit_test.TestFrog" name="test_is_on_screen" time="0.001" /><testcase classname="unit_test.TestMovingObject" name="test_move_positive_speed_wrap" time="0.001" /><testcase classname="unit_test.TestMovingObject" name="test_move_negative_speed_wrap" time="0.001" /><testcase classname="unit_test.TestTurtle" name="test_update_diving_logic" time="0.001" /><testcase classname="unit_test.TestTurtle" name="test_draw_while_diving" time="0.001" /><testcase classname="unit_test.TestTurtle" name="test_draw_while_not_diving" time="0.001" /><testcase classname="unit_test.TestGame" name="test_reset_game" time="0.183" /><testcase classname="unit_test.TestGame" name="test_handle_input_quit" time="0.002" /><testcase classname="unit_test.TestGame" name="test_handle_input_frog_move[1073741906-0--1]" time="0.003" /><testcase classname="unit_test.TestGame" name="test_handle_input_frog_move[1073741905-0-1]" time="0.003" /><testcase classname="unit_test.TestGame" name="test_handle_input_frog_move[1073741904--1-0]" time="0.003" /><testcase classname="unit_test.TestGame" name="test_handle_input_frog_move[1073741903-1-0]" time="0.003" /><testcase classname="unit_test.TestGame" name="test_handle_input_frog_move_at_boundaries" time="0.003" /><testcase classname="unit_test.TestGame" name="test_handle_input_restart[game_over]" time="0.003" /><testcase classname="unit_test.TestGame" name="test_handle_input_restart[level_complete]" time="0.003" /><testcase classname="unit_test.TestGame" name="test_update_calls_move_and_check" time="0.002"><failure message="AttributeError: 'pygame.time.Clock' object attribute 'get_time' is read-only">self = &lt;unittest.mock._patch object at 0x00000254899E1D00&gt;
+
+    def __enter__(self):
+        """Perform the patch."""
+        new, spec, spec_set = self.new, self.spec, self.spec_set
+        autospec, kwargs = self.autospec, self.kwargs
+        new_callable = self.new_callable
+        self.target = self.getter()
+    
+        # normalise False to None
+        if spec is False:
+            spec = None
+        if spec_set is False:
+            spec_set = None
+        if autospec is False:
+            autospec = None
+    
+        if spec is not None and autospec is not None:
+            raise TypeError("Can't specify spec and autospec")
+        if ((spec is not None or autospec is not None) and
+            spec_set not in (True, None)):
+            raise TypeError("Can't provide explicit spec_set *and* spec or autospec")
+    
+        original, local = self.get_original()
+    
+        if new is DEFAULT and autospec is None:
+            inherit = False
+            if spec is True:
+                # set spec to the object we are replacing
+                spec = original
+                if spec_set is True:
+                    spec_set = original
+                    spec = None
+            elif spec is not None:
+                if spec_set is True:
+                    spec_set = spec
+                    spec = None
+            elif spec_set is True:
+                spec_set = original
+    
+            if spec is not None or spec_set is not None:
+                if original is DEFAULT:
+                    raise TypeError("Can't use 'spec' with create=True")
+                if isinstance(original, type):
+                    # If we're patching out a class and there is a spec
+                    inherit = True
+    
+            # Determine the Klass to use
+            if new_callable is not None:
+                Klass = new_callable
+            elif spec is None and _is_async_obj(original):
+                Klass = AsyncMock
+            elif spec is not None or spec_set is not None:
+                this_spec = spec
+                if spec_set is not None:
+                    this_spec = spec_set
+                if _is_list(this_spec):
+                    not_callable = '__call__' not in this_spec
+                else:
+                    not_callable = not callable(this_spec)
+                if _is_async_obj(this_spec):
+                    Klass = AsyncMock
+                elif not_callable:
+                    Klass = NonCallableMagicMock
+                else:
+                    Klass = MagicMock
+            else:
+                Klass = MagicMock
+    
+            _kwargs = {}
+            if spec is not None:
+                _kwargs['spec'] = spec
+            if spec_set is not None:
+                _kwargs['spec_set'] = spec_set
+    
+            # add a name to mocks
+            if (isinstance(Klass, type) and
+                issubclass(Klass, NonCallableMock) and self.attribute):
+                _kwargs['name'] = self.attribute
+    
+            _kwargs.update(kwargs)
+            new = Klass(**_kwargs)
+    
+            if inherit and _is_instance_mock(new):
+                # we can only tell if the instance should be callable if the
+                # spec is not a list
+                this_spec = spec
+                if spec_set is not None:
+                    this_spec = spec_set
+                if (not _is_list(this_spec) and not
+                    _instance_callable(this_spec)):
+                    Klass = NonCallableMagicMock
+    
+                _kwargs.pop('name')
+                new.return_value = Klass(_new_parent=new, _new_name='()',
+                                         **_kwargs)
+        elif autospec is not None:
+            # spec is ignored, new *must* be default, spec_set is treated
+            # as a boolean. Should we check spec is not None and that spec_set
+            # is a bool?
+            if new is not DEFAULT:
+                raise TypeError(
+                    "autospec creates the mock for you. Can't specify "
+                    "autospec and new."
+                )
+            if original is DEFAULT:
+                raise TypeError("Can't use 'autospec' with create=True")
+            spec_set = bool(spec_set)
+            if autospec is True:
+                autospec = original
+    
+            if _is_instance_mock(self.target):
+                raise InvalidSpecError(
+                    f'Cannot autospec attr {self.attribute!r} as the patch '
+                    f'target has already been mocked out. '
+                    f'[target={self.target!r}, attr={autospec!r}]')
+            if _is_instance_mock(autospec):
+                target_name = getattr(self.target, '__name__', self.target)
+                raise InvalidSpecError(
+                    f'Cannot autospec attr {self.attribute!r} from target '
+                    f'{target_name!r} as it has already been mocked out. '
+                    f'[target={self.target!r}, attr={autospec!r}]')
+    
+            new = create_autospec(autospec, spec_set=spec_set,
+                                  _name=self.attribute, **kwargs)
+        elif kwargs:
+            # can't set keyword args when we aren't creating the mock
+            # XXXX If new is a Mock we could call new.configure_mock(**kwargs)
+            raise TypeError("Can't pass kwargs to a mock we aren't creating")
+    
+        new_attr = new
+    
+        self.temp_original = original
+        self.is_local = local
+        self._exit_stack = contextlib.ExitStack()
+        try:
+&gt;           setattr(self.target, self.attribute, new_attr)
+E           AttributeError: 'pygame.time.Clock' object attribute 'get_time' is read-only
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1574: AttributeError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;unit_test.TestGame object at 0x00000254888BDE80&gt;, game_instance = &lt;code.Game object at 0x00000254899E13A0&gt;
+
+    def test_update_calls_move_and_check(self, game_instance):
+        """ทดสอบว่า `update` เรียก method อื่นๆ ที่จำเป็น"""
+        game_instance.check_collisions = MagicMock()
+        game_instance.check_time = MagicMock()
+    
+        # ทดสอบเมื่อ game_state ไม่ใช่ "playing"
+        game_instance.game_state = "game_over"
+        game_instance.update()
+        game_instance.check_collisions.assert_not_called()
+    
+        # ทดสอบเมื่อ game_state เป็น "playing"
+        game_instance.game_state = "playing"
+&gt;       with patch.object(game_instance.clock, 'get_time', return_value=16): # 16ms ~ 60fps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+unit_test.py:294: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1587: in __enter__
+    if not self.__exit__(*sys.exc_info()):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;unittest.mock._patch object at 0x00000254899E1D00&gt;
+exc_info = (&lt;class 'AttributeError'&gt;, AttributeError("'pygame.time.Clock' object attribute 'get_time' is read-only"), &lt;traceback object at 0x0000025488010080&gt;)
+
+    def __exit__(self, *exc_info):
+        """Undo the patch."""
+        if self.is_local and self.temp_original is not DEFAULT:
+            setattr(self.target, self.attribute, self.temp_original)
+        else:
+&gt;           delattr(self.target, self.attribute)
+E           AttributeError: 'pygame.time.Clock' object attribute 'get_time' is read-only
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1595: AttributeError</failure></testcase><testcase classname="unit_test.TestGame" name="test_collision_with_obstacle" time="0.002" /><testcase classname="unit_test.TestGame" name="test_drown_in_water" time="0.002" /><testcase classname="unit_test.TestGame" name="test_safe_on_platform" time="0.002" /><testcase classname="unit_test.TestGame" name="test_drown_on_diving_turtle" time="0.002" /><testcase classname="unit_test.TestGame" name="test_frog_off_screen" time="0.003" /><testcase classname="unit_test.TestGame" name="test_reach_empty_home" time="0.002" /><testcase classname="unit_test.TestGame" name="test_reach_filled_home" time="0.002" /><testcase classname="unit_test.TestGame" name="test_reach_wall_between_homes" time="0.002"><failure message="assert not 1 &lt; 5">self = &lt;unit_test.TestGame object at 0x00000254888BD3A0&gt;, game_instance = &lt;code.Game object at 0x0000025489938560&gt;
+
+    def test_reach_wall_between_homes(self, game_instance):
+        """ทดสอบเมื่อกบชนกำแพงระหว่างบ้าน (พื้นที่ที่ไม่ใช่บ้าน)"""
+        # คำนวณตำแหน่งกึ่งกลางระหว่างบ้าน 2 หลังแรก
+        center_x = (game_instance.homes[0].rect.right + game_instance.homes[1].rect.left) / 2
+        game_instance.frog.rect.top = 0
+        game_instance.frog.rect.centerx = center_x
+    
+        # คำนวณ home_index จากตำแหน่งนี้ ซึ่งจะไม่อยู่ในขอบเขต 0-4
+        home_width = SCREEN_WIDTH // TOTAL_HOMES
+        calculated_index = int(center_x // home_width)
+&gt;       assert not (0 &lt;= calculated_index &lt; TOTAL_HOMES)
+E       assert not 1 &lt; 5
+
+unit_test.py:389: AssertionError</failure></testcase><testcase classname="unit_test.TestGame" name="test_level_complete" time="0.002" /><testcase classname="unit_test.TestGame" name="test_time_out" time="0.003" /><testcase classname="unit_test.TestGame" name="test_no_time_out" time="0.002" /><testcase classname="unit_test.TestGame" name="test_lose_life_and_reset" time="0.002" /><testcase classname="unit_test.TestGame" name="test_lose_last_life_game_over" time="0.002" /><testcase classname="unit_test.TestGame" name="test_draw" time="0.002"><failure message="TypeError: argument 1 must be pygame.surface.Surface, not MagicMock">self = &lt;unit_test.TestGame object at 0x00000254888BD820&gt;, game_instance = &lt;code.Game object at 0x0000025489A3D340&gt;
+
+    def test_draw(self, game_instance):
+        """ทดสอบฟังก์ชัน `draw` เพื่อให้ครอบคลุมการวาดทั้งหมด"""
+        # ทดสอบการวาดสถานะปกติ
+&gt;       game_instance.draw()
+
+unit_test.py:448: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;code.Game object at 0x0000025489A3D340&gt;
+
+    def draw(self) -&gt; None:
+        """วาดทุกอย่างลงบนหน้าจอ"""
+        # พื้นหลัง
+        self.screen.fill(COLOR_SAFE_ZONE)
+&gt;       pygame.draw.rect(self.screen, COLOR_WATER, self.water_rect)
+E       TypeError: argument 1 must be pygame.surface.Surface, not MagicMock
+
+code.py:324: TypeError</failure></testcase><testcase classname="unit_test.TestGame" name="test_draw_ui" time="0.004" /><testcase classname="unit_test.TestGame" name="test_run_loop_and_exit" time="0.003"><failure message="AttributeError: 'pygame.time.Clock' object attribute 'tick' is read-only">self = &lt;unit_test.TestGame object at 0x00000254888BE540&gt;, game_instance = &lt;code.Game object at 0x0000025489A6DD00&gt;
+
+    def test_run_loop_and_exit(self, game_instance):
+        """ทดสอบลูปหลักของเกมและการออกจากลูป"""
+        # ตั้งค่าให้ `running` เป็น False หลังจากวนลูป 2 ครั้ง เพื่อให้ test จบ
+        side_effects = [True, True, False]
+        def mock_handle_input():
+            game_instance.running = side_effects.pop(0)
+    
+        game_instance.handle_input = MagicMock(side_effect=mock_handle_input)
+        game_instance.update = MagicMock()
+        game_instance.draw = MagicMock()
+&gt;       game_instance.clock.tick = MagicMock()
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'pygame.time.Clock' object attribute 'tick' is read-only
+
+unit_test.py:494: AttributeError</failure></testcase><testcase classname="unit_test" name="test_main_entry_point" time="0.002"><failure message="ModuleNotFoundError: No module named 'frogger'">def test_main_entry_point():
+        """ทดสอบ entry point `if __name__ == "__main__"` """
+&gt;       with patch('frogger.Game') as mock_game_class:
+             ^^^^^^^^^^^^^^^^^^^^^
+
+unit_test.py:509: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1445: in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\pkgutil.py:513: in resolve_name
+    mod = importlib.import_module(modname)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'frogger', import_ = &lt;function _gcd_import at 0x00000254EE33C0E0&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'frogger'
+
+&lt;frozen importlib._bootstrap&gt;:1324: ModuleNotFoundError</failure></testcase></testsuite></testsuites>

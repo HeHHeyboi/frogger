@@ -687,3 +687,7 @@ class TestFroggerGame:
         home = game.homes[4]
         game.frog.x = home.x
         game.frog.y = home.y
+        
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "--cov=code", "--cov-report=html", "--cov-report=term-missing", "--junitxml=results.xml"])

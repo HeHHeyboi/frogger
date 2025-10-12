@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="21" time="0.483" timestamp="2025-10-12T13:41:23.585594+07:00" hostname="CPCOM"><testcase classname="unit_test.TestGameObject" name="test_init" time="0.010" /><testcase classname="unit_test.TestGameObject" name="test_draw" time="0.004" /><testcase classname="unit_test.TestFrog" name="test_init" time="0.004" /><testcase classname="unit_test.TestFrog" name="test_move" time="0.004" /><testcase classname="unit_test.TestFrog" name="test_attach_detach" time="0.004" /><testcase classname="unit_test.TestFrog" name="test_update_position_on_platform" time="0.003" /><testcase classname="unit_test.TestFrog" name="test_reset_position" time="0.004" /><testcase classname="unit_test.TestFrog" name="test_is_on_screen" time="0.004" /><testcase classname="unit_test.TestMovingObject" name="test_move_and_wrap_positive_speed" time="0.004"><failure message="assert 815 == (10 + 5)&#10; +  where 815 = &lt;rect(735, 100, 80, 40)&gt;.right&#10; +    where &lt;rect(735, 100, 80, 40)&gt; = &lt;code.MovingObject object at 0x0000026F0401A5A0&gt;.rect">self = &lt;unit_test.TestMovingObject object at 0x0000026F03EAAFF0&gt;
+
+    def test_move_and_wrap_positive_speed(self):
+        """Test wrapping from right to left."""
+        obj = MovingObject(-50, 100, 80, 40, (0,0,0), 5)
+        obj.rect.right = SCREEN_WIDTH + 10 # Place it just off the right edge
+    
+        obj.move()
+        # It should have moved and wrapped around
+&gt;       assert obj.rect.right == 10 + 5
+E       assert 815 == (10 + 5)
+E        +  where 815 = &lt;rect(735, 100, 80, 40)&gt;.right
+E        +    where &lt;rect(735, 100, 80, 40)&gt; = &lt;code.MovingObject object at 0x0000026F0401A5A0&gt;.rect
+
+unit_test.py:138: AssertionError</failure></testcase><testcase classname="unit_test.TestMovingObject" name="test_move_and_wrap_negative_speed" time="0.004"><failure message="assert -15 == ((800 - 10) - 5)&#10; +  where -15 = &lt;rect(-15, 100, 80, 40)&gt;.left&#10; +    where &lt;rect(-15, 100, 80, 40)&gt; = &lt;code.MovingObject object at 0x0000026F04065940&gt;.rect">self = &lt;unit_test.TestMovingObject object at 0x0000026F03EAAE70&gt;
+
+    def test_move_and_wrap_negative_speed(self):
+        """Test wrapping from left to right."""
+        obj = MovingObject(SCREEN_WIDTH + 50, 100, 80, 40, (0,0,0), -5)
+        obj.rect.left = -10 # Place it just off the left edge
+    
+        obj.move()
+        # It should have moved and wrapped around
+&gt;       assert obj.rect.left == SCREEN_WIDTH - 10 - 5
+E       assert -15 == ((800 - 10) - 5)
+E        +  where -15 = &lt;rect(-15, 100, 80, 40)&gt;.left
+E        +    where &lt;rect(-15, 100, 80, 40)&gt; = &lt;code.MovingObject object at 0x0000026F04065940&gt;.rect
+
+unit_test.py:147: AssertionError</failure></testcase><testcase classname="unit_test.TestTurtle" name="test_update_diving_cycle" time="0.003" /><testcase classname="unit_test.TestTurtle" name="test_draw" time="0.004" /><testcase classname="unit_test.TestGame" name="test_reset_game" time="0.004" /><testcase classname="unit_test.TestGame" name="test_handle_input" time="0.005"><failure message="AttributeError: 'NoneType' object has no attribute 'assert_called_once'">self = &lt;unit_test.TestGame object at 0x0000026F03EAAEA0&gt;, game = &lt;code.Game object at 0x0000026F03F46960&gt;
+mocker = &lt;pytest_mock.plugin.MockerFixture object at 0x0000026F03F34110&gt;
+
+    def test_handle_input(self, game, mocker):
+        """Test all branches of player input handling."""
+        # 1. Test QUIT event
+        mocker.patch('pygame.event.get', return_value=[pygame.event.Event(pygame.QUIT)])
+        game.handle_input()
+        assert not game.running
+    
+        # 2. Test frog movement
+        game.running = True
+        arrow_keys = [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]
+        for key in arrow_keys:
+            mocker.patch('pygame.event.get', return_value=[pygame.event.Event(pygame.KEYDOWN, key=key)])
+            with mocker.patch.object(game.frog, 'move') as mock_move:
+                game.handle_input()
+&gt;               mock_move.assert_called_once()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AttributeError: 'NoneType' object has no attribute 'assert_called_once'
+
+unit_test.py:222: AttributeError</failure></testcase><testcase classname="unit_test.TestGame" name="test_update_non_playing_state" time="0.004" /><testcase classname="unit_test.TestGame" name="test_lose_life" time="0.004" /><testcase classname="unit_test.TestGame" name="test_check_time_out" time="0.005"><failure message="AttributeError: 'NoneType' object has no attribute 'assert_called_once'">self = &lt;unit_test.TestGame object at 0x0000026F03F10920&gt;, game = &lt;code.Game object at 0x0000026F03F527B0&gt;
+mocker = &lt;pytest_mock.plugin.MockerFixture object at 0x0000026F02B7AF60&gt;
+
+    def test_check_time_out(self, game, mocker):
+        """Test that the player loses a life when time runs out."""
+        mocker.patch('pygame.time.get_ticks', side_effect=[0, game.time_limit + 1])
+        game.setup_level() # Resets start_time
+        with mocker.patch.object(game, 'lose_life') as mock_lose_life:
+            game.check_time()
+&gt;           mock_lose_life.assert_called_once()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'assert_called_once'
+
+unit_test.py:277: AttributeError</failure></testcase><testcase classname="unit_test.TestGame" name="test_collisions" time="0.004"><failure message="AttributeError: 'pygame.rect.Rect' object attribute 'colliderect' is read-only">self = &lt;unit_test.TestGame object at 0x0000026F03F10B30&gt;, game = &lt;code.Game object at 0x0000026F03FCB2F0&gt;
+mocker = &lt;pytest_mock.plugin.MockerFixture object at 0x0000026F04064380&gt;
+
+    def test_collisions(self, game, mocker):
+        """A comprehensive test for all collision scenarios."""
+        mock_lose_life = mocker.patch.object(game, 'lose_life')
+    
+        # 1. Collision with a car
+&gt;       game.obstacles[0].rect.colliderect = lambda x: True
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'pygame.rect.Rect' object attribute 'colliderect' is read-only
+
+unit_test.py:284: AttributeError</failure></testcase><testcase classname="unit_test.TestGame" name="test_level_complete" time="0.004" /><testcase classname="unit_test.TestGame" name="test_draw_methods" time="0.006"><failure message="pygame.error: video system not initialized">self = &lt;unit_test.TestGame object at 0x0000026F03F10110&gt;, game = &lt;code.Game object at 0x0000026F03FDF650&gt;
+mocker = &lt;pytest_mock.plugin.MockerFixture object at 0x0000026F03FCBA70&gt;
+
+    def test_draw_methods(self, game, mocker):
+        """Test the main draw method and its helpers."""
+        mock_draw_rect = mocker.patch('pygame.draw.rect')
+        mock_blit = mocker.patch.object(game.screen, 'blit')
+    
+        # 1. Draw filled home
+        game.homes_filled[0] = True
+&gt;       game.draw()
+
+unit_test.py:363: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;code.Game object at 0x0000026F03FDF650&gt;
+
+    def draw(self) -&gt; None:
+        """วาดทุกอย่างลงบนหน้าจอ"""
+        # พื้นหลัง
+        self.screen.fill(COLOR_SAFE_ZONE)
+        pygame.draw.rect(self.screen, COLOR_WATER, self.water_rect)
+        pygame.draw.rect(self.screen, COLOR_ROAD, self.road_rect)
+    
+        # บ้าน
+        for i, home in enumerate(self.homes):
+            home.draw(self.screen)
+            if self.homes_filled[i]:
+                filled_rect = pygame.Rect(home.rect.x, home.rect.y, GRID_SIZE, GRID_SIZE)
+                filled_rect.center = home.rect.center
+                pygame.draw.rect(self.screen, COLOR_FROG, filled_rect)
+    
+        # วัตถุ
+        for obj in self.obstacles + self.platforms:
+            obj.draw(self.screen)
+    
+        # กบ
+        self.frog.draw(self.screen)
+    
+        # UI (Text)
+        self.draw_ui()
+    
+        # หน้าจอ Game Over / Level Complete
+        if self.game_state == "game_over":
+            self.draw_overlay("Game Over")
+        elif self.game_state == "level_complete":
+            self.draw_overlay(f"Level {self.level} Complete!")
+    
+&gt;       pygame.display.flip()
+E       pygame.error: video system not initialized
+
+code.py:351: error</failure></testcase><testcase classname="unit_test.TestGame" name="test_run_loop_exit" time="0.006"><failure message="TypeError: argument 1 must be pygame.surface.Surface, not MagicMock">self = &lt;unit_test.TestGame object at 0x0000026F03F10080&gt;, game = &lt;code.Game object at 0x0000026F04057800&gt;
+mocker = &lt;pytest_mock.plugin.MockerFixture object at 0x0000026F03F52F60&gt;
+
+    def test_run_loop_exit(self, game, mocker):
+        """Ensure the game loop terminates correctly."""
+        mock_sys_exit = mocker.patch('sys.exit')
+        mock_pygame_quit = mocker.patch('pygame.quit')
+    
+        # Simulate the loop running once and then exiting
+        mocker.patch.object(game, 'handle_input', side_effect=lambda: setattr(game, 'running', False))
+    
+        with pytest.raises(SystemExit):
+&gt;           game.run()
+
+unit_test.py:393: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+code.py:396: in run
+    self.draw()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;code.Game object at 0x0000026F04057800&gt;
+
+    def draw(self) -&gt; None:
+        """วาดทุกอย่างลงบนหน้าจอ"""
+        # พื้นหลัง
+        self.screen.fill(COLOR_SAFE_ZONE)
+&gt;       pygame.draw.rect(self.screen, COLOR_WATER, self.water_rect)
+E       TypeError: argument 1 must be pygame.surface.Surface, not MagicMock
+
+code.py:324: TypeError</failure></testcase></testsuite></testsuites>

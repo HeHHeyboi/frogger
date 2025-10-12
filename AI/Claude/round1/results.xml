@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="50" time="1.399" timestamp="2025-10-12T13:22:58.372951+07:00" hostname="CPCOM"><testcase classname="unit_test.TestGameState" name="test_game_state_init" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_frogger_game_init" time="0.008" /><testcase classname="unit_test.TestFroggerGame" name="test_init_game_objects" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_create_vehicles" time="0.003"><failure message="StopIteration">self = &lt;unit_test.TestFroggerGame object at 0x000002669D269730&gt;, mock_randint = &lt;MagicMock name='randint' id='2639746583440'&gt;, mock_font = &lt;MagicMock name='Font' id='2639745734400'&gt;, mock_clock = &lt;MagicMock name='Clock' id='2639746761984'&gt;
+mock_caption = &lt;MagicMock name='set_caption' id='2639746765776'&gt;, mock_display = &lt;MagicMock name='set_mode' id='2639746769760'&gt;, mock_init = &lt;MagicMock name='init' id='2639742400704'&gt;
+
+    @patch('pygame.init')
+    @patch('pygame.display.set_mode')
+    @patch('pygame.display.set_caption')
+    @patch('pygame.time.Clock')
+    @patch('pygame.font.Font')
+    @patch('random.randint')
+    def test_create_vehicles(self, mock_randint, mock_font, mock_clock, mock_caption, mock_display, mock_init):
+        """ทดสอบการสร้างยานพาหนะ"""
+        mock_display.return_value = Mock()
+        mock_clock.return_value = Mock()
+        mock_font.return_value = Mock()
+        mock_randint.side_effect = [4, 100, 3, 150, 5, 200, 4, 250]  # num_vehicles และ spacing values
+    
+&gt;       game = FroggerGame()
+               ^^^^^^^^^^^^^
+
+unit_test.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+code.py:231: in __init__
+    self._init_game_objects()
+code.py:246: in _init_game_objects
+    self._create_vehicles()
+code.py:275: in _create_vehicles
+    x = SCREEN_WIDTH - i * spacing + random.randint(0, spacing)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1137: in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1141: in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;MagicMock name='randint' id='2639746583440'&gt;, args = (0, 4), kwargs = {}, effect = &lt;list_iterator object at 0x000002669D8B3970&gt;
+
+    def _execute_mock_call(self, /, *args, **kwargs):
+        # separate from _increment_mock_call so that awaited functions are
+        # executed separately from their call, also AsyncMock overrides this method
+    
+        effect = self.side_effect
+        if effect is not None:
+            if _is_exception(effect):
+                raise effect
+            elif not _callable(effect):
+&gt;               result = next(effect)
+                         ^^^^^^^^^^^^
+E               StopIteration
+
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1198: StopIteration</failure></testcase><testcase classname="unit_test.TestFroggerGame" name="test_create_river_objects" time="0.003"><failure message="StopIteration">self = &lt;unit_test.TestFroggerGame object at 0x000002669D268E30&gt;, mock_randint = &lt;MagicMock name='randint' id='2639746596400'&gt;, mock_font = &lt;MagicMock name='Font' id='2639746534192'&gt;, mock_clock = &lt;MagicMock name='Clock' id='2639746538128'&gt;
+mock_caption = &lt;MagicMock name='set_caption' id='2639746541968'&gt;, mock_display = &lt;MagicMock name='set_mode' id='2639746545760'&gt;, mock_init = &lt;MagicMock name='init' id='2639746990688'&gt;
+
+    @patch('pygame.init')
+    @patch('pygame.display.set_mode')
+    @patch('pygame.display.set_caption')
+    @patch('pygame.time.Clock')
+    @patch('pygame.font.Font')
+    @patch('random.randint')
+    def test_create_river_objects(self, mock_randint, mock_font, mock_clock, mock_caption, mock_display, mock_init):
+        """ทดสอบการสร้างวัตถุในแม่น้ำ"""
+        mock_display.return_value = Mock()
+        mock_clock.return_value = Mock()
+        mock_font.return_value = Mock()
+    
+        # Mock values สำหรับการสร้างขอนไม้และเต่า
+        mock_randint.side_effect = [
+            # สำหรับ logs
+            3, 100, 2, 150, 3, 200,  # num_logs และ spacing, log_length
+            2, 80, 4, 120, 3, 160,   # รอบที่ 2
+            # สำหรับ turtles
+            4, 90, 3, 110, 4, 130,   # num_turtles และ spacing
+            3, 70, 4, 140, 3, 180,   # รอบที่ 2
+            # สำหรับ turtle dive timers
+            240, 300, 180, 270, 220, 190, 260, 180, 240, 200
+        ]
+    
+&gt;       game = FroggerGame()
+               ^^^^^^^^^^^^^
+
+unit_test.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+code.py:231: in __init__
+    self._init_game_objects()
+code.py:246: in _init_game_objects
+    self._create_vehicles()
+code.py:275: in _create_vehicles
+    x = SCREEN_WIDTH - i * spacing + random.randint(0, spacing)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1137: in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1141: in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;MagicMock name='randint' id='2639746596400'&gt;, args = (0, 8), kwargs = {}, effect = &lt;list_iterator object at 0x000002669D2E9240&gt;
+
+    def _execute_mock_call(self, /, *args, **kwargs):
+        # separate from _increment_mock_call so that awaited functions are
+        # executed separately from their call, also AsyncMock overrides this method
+    
+        effect = self.side_effect
+        if effect is not None:
+            if _is_exception(effect):
+                raise effect
+            elif not _callable(effect):
+&gt;               result = next(effect)
+                         ^^^^^^^^^^^^
+E               StopIteration
+
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1198: StopIteration</failure></testcase><testcase classname="unit_test.TestFroggerGame" name="test_create_homes" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_handle_input_quit" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_handle_input_movement_keys" time="0.004" /><testcase classname="unit_test.TestFroggerGame" name="test_handle_input_restart_game_over" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_handle_input_restart_level_complete" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_handle_input_no_events" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_update_game_logic_game_over" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_update_game_logic_level_complete" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_update_game_logic_time_up" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_update_game_logic_normal" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_check_vehicle_collision" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_check_water_collision_on_log" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_check_water_collision_on_turtle" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_check_water_collision_drowning" time="0.004"><failure message="assert 3 == (3 - 1)&#10; +  where 3 = &lt;code.GameState object at 0x000002669D8AAF60&gt;.lives&#10; +    where &lt;code.GameState object at 0x000002669D8AAF60&gt; = &lt;code.FroggerGame object at 0x000002669D8A9190&gt;.game_state">self = &lt;unit_test.TestFroggerGame object at 0x000002669D268290&gt;, mock_font = &lt;MagicMock name='Font' id='2639747004560'&gt;, mock_clock = &lt;MagicMock name='Clock' id='2639752375344'&gt;, mock_caption = &lt;MagicMock name='set_caption' id='2639752370112'&gt;
+mock_display = &lt;MagicMock name='set_mode' id='2639752366080'&gt;, mock_init = &lt;MagicMock name='init' id='2639753020000'&gt;
+
+    @patch('pygame.init')
+    @patch('pygame.display.set_mode')
+    @patch('pygame.display.set_caption')
+    @patch('pygame.time.Clock')
+    @patch('pygame.font.Font')
+    def test_check_water_collision_drowning(self, mock_font, mock_clock, mock_caption, mock_display, mock_init):
+        """ทดสอบการตรวจสอบการจมน้ำ"""
+        mock_display.return_value = Mock()
+        mock_clock.return_value = Mock()
+        mock_font.return_value = Mock()
+    
+        game = FroggerGame()
+        initial_lives = game.game_state.lives
+    
+        # วางกบในโซนแม่น้ำโดยไม่ได้อยู่บนวัตถุใดๆ
+        game.frog.x = 50
+        game.frog.y = 120  # ในโซนแม่น้ำ
+        game.frog.update_rect()
+    
+        game._check_water_collision()
+    
+        # กบควรจมน้ำตาย
+&gt;       assert game.game_state.lives == initial_lives - 1
+E       assert 3 == (3 - 1)
+E        +  where 3 = &lt;code.GameState object at 0x000002669D8AAF60&gt;.lives
+E        +    where &lt;code.GameState object at 0x000002669D8AAF60&gt; = &lt;code.FroggerGame object at 0x000002669D8A9190&gt;.game_state
+
+unit_test.py:518: AssertionError</failure></testcase><testcase classname="unit_test.TestFroggerGame" name="test_check_water_collision_outside_water" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_check_home_collision_success" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_check_home_collision_all_homes_filled" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_check_home_collision_occupied_home" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_check_home_collision_miss_home" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_lose_life_game_over" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_lose_life_continue" time="0.002" /><testcase classname="unit_test.TestFroggerGame" name="test_reset_frog" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_complete_level" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_restart_game" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_draw_game" time="0.003"><failure message="TypeError: argument 1 must be pygame.surface.Surface, not Mock">self = &lt;unit_test.TestFroggerGame object at 0x000002669D8B24E0&gt;, mock_flip = &lt;MagicMock name='flip' id='2639752926256'&gt;, mock_font = &lt;MagicMock name='Font' id='2639752583632'&gt;, mock_clock = &lt;MagicMock name='Clock' id='2639752580320'&gt;
+mock_caption = &lt;MagicMock name='set_caption' id='2639752586704'&gt;, mock_display = &lt;MagicMock name='set_mode' id='2639753237216'&gt;, mock_init = &lt;MagicMock name='init' id='2639753241008'&gt;
+
+    @patch('pygame.init')
+    @patch('pygame.display.set_mode')
+    @patch('pygame.display.set_caption')
+    @patch('pygame.time.Clock')
+    @patch('pygame.font.Font')
+    @patch('pygame.display.flip')
+    def test_draw_game(self, mock_flip, mock_font, mock_clock, mock_caption, mock_display, mock_init):
+        """ทดสอบการวาดเกม"""
+        mock_screen = Mock()
+        mock_display.return_value = mock_screen
+        mock_clock.return_value = Mock()
+        mock_font.return_value = Mock()
+    
+        game = FroggerGame()
+    
+&gt;       game.draw_game()
+
+unit_test.py:789: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+code.py:488: in draw_game
+    self._draw_background()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;code.FroggerGame object at 0x000002669D8DF0B0&gt;
+
+    def _draw_background(self):
+        """วาดพื้นหลัง"""
+        # โซนปลอดภัยด้านล่าง
+&gt;       pygame.draw.rect(self.screen, Colors.DARK_GREEN,
+                        (0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80))
+E       TypeError: argument 1 must be pygame.surface.Surface, not Mock
+
+code.py:521: TypeError</failure></testcase><testcase classname="unit_test.TestFroggerGame" name="test_draw_background" time="0.004" /><testcase classname="unit_test.TestFroggerGame" name="test_draw_ui" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_draw_status_messages_game_over" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_draw_status_messages_level_complete" time="0.003" /><testcase classname="unit_test.TestFroggerGame" name="test_run_quit" time="0.004" /><testcase classname="unit_test.TestMainFunction" name="test_main" time="0.002"><failure message="ModuleNotFoundError: No module named 'frogger'">args = (&lt;unit_test.TestMainFunction object at 0x000002669D268770&gt;,), keywargs = {}
+
+    @wraps(func)
+    def patched(*args, **keywargs):
+&gt;       with self.decoration_helper(patched,
+                                    args,
+                                    keywargs) as (newargs, newkeywargs):
+
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1372: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:526: in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1445: in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\pkgutil.py:513: in resolve_name
+    mod = importlib.import_module(modname)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'frogger', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+&gt;       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'frogger'
+
+..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: ModuleNotFoundError</failure></testcase><testcase classname="unit_test.TestEdgeCases" name="test_water_collision_diving_turtle" time="0.002" /><testcase classname="unit_test.TestEdgeCases" name="test_multiple_vehicle_collisions" time="0.003" /><testcase classname="unit_test.TestEdgeCases" name="test_frog_at_screen_boundaries" time="0.004" /><testcase classname="unit_test.TestEdgeCases" name="test_empty_object_lists" time="0.002" /><testcase classname="unit_test.TestEdgeCases" name="test_draw_with_no_objects" time="0.003"><failure message="TypeError: argument 1 must be pygame.surface.Surface, not Mock">self = &lt;unit_test.TestEdgeCases object at 0x000002669D8B20C0&gt;, mock_font = &lt;MagicMock name='Font' id='2639746469376'&gt;, mock_clock = &lt;MagicMock name='Clock' id='2639746586416'&gt;, mock_caption = &lt;MagicMock name='set_caption' id='2639753061648'&gt;
+mock_display = &lt;MagicMock name='set_mode' id='2639753061504'&gt;, mock_init = &lt;MagicMock name='init' id='2639746764384'&gt;
+
+    @patch('pygame.init')
+    @patch('pygame.display.set_mode')
+    @patch('pygame.display.set_caption')
+    @patch('pygame.time.Clock')
+    @patch('pygame.font.Font')
+    def test_draw_with_no_objects(self, mock_font, mock_clock, mock_caption, mock_display, mock_init):
+        """ทดสอบการวาดเมื่อไม่มีวัตถุ"""
+        mock_screen = Mock()
+        mock_display.return_value = mock_screen
+        mock_clock.return_value = Mock()
+        mock_font_instance = Mock()
+        mock_font.return_value = mock_font_instance
+    
+        # Mock render method
+        mock_text_surface = Mock()
+        mock_rect = Mock()
+        mock_text_surface.get_rect.return_value = mock_rect
+        mock_font_instance.render.return_value = mock_text_surface
+    
+        game = FroggerGame()
+    
+        # ล้างวัตถุทั้งหมด
+        game.vehicles.clear()
+        game.logs.clear()
+        game.turtles.clear()
+    
+        # ทดสอบการวาด
+&gt;       game.draw_game()
+
+unit_test.py:1076: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+code.py:488: in draw_game
+    self._draw_background()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;code.FroggerGame object at 0x000002669D2B2360&gt;
+
+    def _draw_background(self):
+        """วาดพื้นหลัง"""
+        # โซนปลอดภัยด้านล่าง
+&gt;       pygame.draw.rect(self.screen, Colors.DARK_GREEN,
+                        (0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 80))
+E       TypeError: argument 1 must be pygame.surface.Surface, not Mock
+
+code.py:521: TypeError</failure></testcase><testcase classname="unit_test.TestGameIntegration" name="test_complete_game_cycle" time="0.003" /><testcase classname="unit_test.TestGameIntegration" name="test_death_scenarios" time="0.003" /><testcase classname="unit_test.TestPerformanceAndEdgeCases" name="test_large_number_of_updates" time="0.010" /><testcase classname="unit_test.TestPerformanceAndEdgeCases" name="test_extreme_frog_positions" time="0.003" /><testcase classname="unit_test.TestErrorHandling" name="test_invalid_direction_handling" time="0.002" /><testcase classname="unit_test.TestErrorHandling" name="test_negative_time_handling" time="0.003" /><testcase classname="unit_test.TestBoundaryConditions" name="test_minimum_maximum_values" time="0.001" /><testcase classname="unit_test.TestBoundaryConditions" name="test_zero_speed_objects" time="0.002" /><testcase classname="unit_test.TestStateTransitions" name="test_game_state_transitions" time="0.003" /></testsuite></testsuites>

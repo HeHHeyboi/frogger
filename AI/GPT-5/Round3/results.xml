@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="21" time="4.322" timestamp="2025-10-12T13:46:16.149171+07:00" hostname="CPCOM"><testcase classname="unit_test" name="test_lane_build_with_invalid_kind_raises_value_error" time="0.221" /><testcase classname="unit_test" name="test_vehicle_and_platform_wrapping_all_directions[Vehicle-1-801--50]" time="0.197" /><testcase classname="unit_test" name="test_vehicle_and_platform_wrapping_all_directions[Vehicle--1--51-800]" time="0.184" /><testcase classname="unit_test" name="test_vehicle_and_platform_wrapping_all_directions[Platform-1-801--120]" time="0.195" /><testcase classname="unit_test" name="test_vehicle_and_platform_wrapping_all_directions[Platform--1--121-800]" time="0.182" /><testcase classname="unit_test" name="test_player_is_carried_by_platform" time="0.214"><failure message="assert None is not None&#10; +  where None = &lt;code.Player object at 0x000001896D906ED0&gt;.on_platform&#10; +    where &lt;code.Player object at 0x000001896D906ED0&gt; = &lt;code.Game object at 0x000001896D9C4CB0&gt;.player">game = &lt;code.Game object at 0x000001896D9C4CB0&gt;
+
+    def test_player_is_carried_by_platform(game):
+        """Ensure player is carried horizontally by a platform, and on_platform is set."""
+        river_lane = game.river_lanes[0]
+        plat = next(obj for obj in river_lane.objects if isinstance(obj, frogger.Platform))
+        # วาง player ให้อยู่ในขอบ platform แน่นอน (ทั้ง x และ y)
+        px = int(plat.rect.x + plat.rect.w // 2 - game.player.rect.w // 2)
+        py = plat.rect.y
+        game.player.set_position(px, py)
+        dt = 1.0
+        prev_x = game.player.rect.x
+        game.update(dt)
+        assert game.state == "PLAYING"
+        # on_platform จะถูกเซ็ตแค่ถ้า player overlap จริงๆ (float/rect rounding ต้องระวัง)
+&gt;       assert game.player.on_platform is not None
+E       assert None is not None
+E        +  where None = &lt;code.Player object at 0x000001896D906ED0&gt;.on_platform
+E        +    where &lt;code.Player object at 0x000001896D906ED0&gt; = &lt;code.Game object at 0x000001896D9C4CB0&gt;.player
+
+unit_test.py:79: AssertionError</failure></testcase><testcase classname="unit_test" name="test_player_drowns_in_river" time="0.185" /><testcase classname="unit_test" name="test_player_carried_off_screen_by_platform" time="0.192" /><testcase classname="unit_test" name="test_home_collision_on_already_filled_slot" time="0.195" /><testcase classname="unit_test" name="test_input_handler_ignores_non_movement_keys_during_play" time="0.207" /><testcase classname="unit_test" name="test_draw_functions_run_without_errors_in_all_states" time="0.197" /><testcase classname="unit_test" name="test_player_move_and_forward_jump_score" time="0.186" /><testcase classname="unit_test" name="test_player_boundary_restriction_and_out_of_bounds_death" time="0.187" /><testcase classname="unit_test" name="test_player_reset" time="0.177" /><testcase classname="unit_test" name="test_collision_with_vehicle_and_no_collision" time="0.189" /><testcase classname="unit_test" name="test_timeout_death" time="0.186" /><testcase classname="unit_test" name="test_home_scoring_and_level_up" time="0.187" /><testcase classname="unit_test" name="test_game_over_and_restart" time="0.185" /><testcase classname="unit_test" name="test_pressing_other_button_does_not_start_from_start_or_gameover" time="0.189" /><testcase classname="unit_test" name="test_lane_increase_speed" time="0.201" /><testcase classname="unit_test" name="test_helper_in_rect_bounds" time="0.177" /></testsuite></testsuites>

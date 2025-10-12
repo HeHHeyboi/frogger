@@ -1345,4 +1345,4 @@ class TestStateTransitions:
 
 # เรียกใช้ pytest ถ้าไฟล์นี้ถูกรันโดยตรง
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "--cov=frogger", "--cov-report=html", "--cov-report=term-missing"])
+    pytest.main([__file__, "-v", "--cov=code", "--cov-report=html", "--cov-report=term-missing", "--junitxml=results.xml"])

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="30" time="0.812" timestamp="2025-10-12T13:38:21.457891+07:00" hostname="CPCOM"><testcase classname="unit_test" name="test_game_object_draw" time="0.175" /><testcase classname="unit_test" name="test_frog_init" time="0.001" /><testcase classname="unit_test" name="test_frog_move" time="0.001" /><testcase classname="unit_test" name="test_frog_attach_detach" time="0.001" /><testcase classname="unit_test" name="test_frog_reset_position" time="0.001" /><testcase classname="unit_test" name="test_frog_update_position_on_platform" time="0.001" /><testcase classname="unit_test" name="test_frog_is_on_screen" time="0.001" /><testcase classname="unit_test" name="test_moving_object_move" time="0.002"><failure message="assert -20 &gt; 800&#10; +  where -20 = &lt;rect(-20, 50, 20, 20)&gt;.left&#10; +    where &lt;rect(-20, 50, 20, 20)&gt; = &lt;code.MovingObject object at 0x000002B01112DF10&gt;.rect">def test_moving_object_move():
+        # เคลื่อนที่ไปทางขวาและวนกลับ
+        obj_right = MovingObject(SCREEN_WIDTH - 1, 50, 20, 20, (0,0,0), 2)
+        obj_right.move()
+&gt;       assert obj_right.rect.left &gt; SCREEN_WIDTH
+E       assert -20 &gt; 800
+E        +  where -20 = &lt;rect(-20, 50, 20, 20)&gt;.left
+E        +    where &lt;rect(-20, 50, 20, 20)&gt; = &lt;code.MovingObject object at 0x000002B01112DF10&gt;.rect
+
+unit_test.py:98: AssertionError</failure></testcase><testcase classname="unit_test" name="test_turtle_update_and_dive" time="0.001" /><testcase classname="unit_test" name="test_turtle_draw" time="0.002" /><testcase classname="unit_test" name="test_game_handle_input_quit" time="0.002" /><testcase classname="unit_test" name="test_game_handle_input_movement" time="0.002"><failure message="assert 60 == (560 - 40)&#10; +  where 60 = &lt;rect(380, 60, 40, 40)&gt;.y&#10; +    where &lt;rect(380, 60, 40, 40)&gt; = &lt;code.Frog object at 0x000002B01114E240&gt;.rect&#10; +      where &lt;code.Frog object at 0x000002B01114E240&gt; = &lt;code.Game object at 0x000002B01114D250&gt;.frog&#10; +  and   560 = &lt;rect(380, 560, 40, 40)&gt;.y">game = &lt;code.Game object at 0x000002B01114D250&gt;
+
+    def test_game_handle_input_movement(game):
+        original_pos = game.frog.rect.copy()
+    
+        # ทดสอบการเคลื่อนที่ทุกทิศทาง
+        game.frog.rect.top = 100 # Reset to a safe position to move up
+        pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_UP))
+        game.handle_input()
+&gt;       assert game.frog.rect.y == original_pos.y - GRID_SIZE
+E       assert 60 == (560 - 40)
+E        +  where 60 = &lt;rect(380, 60, 40, 40)&gt;.y
+E        +    where &lt;rect(380, 60, 40, 40)&gt; = &lt;code.Frog object at 0x000002B01114E240&gt;.rect
+E        +      where &lt;code.Frog object at 0x000002B01114E240&gt; = &lt;code.Game object at 0x000002B01114D250&gt;.frog
+E        +  and   560 = &lt;rect(380, 560, 40, 40)&gt;.y
+
+unit_test.py:145: AssertionError</failure></testcase><testcase classname="unit_test" name="test_game_handle_input_out_of_bounds" time="0.002" /><testcase classname="unit_test" name="test_game_handle_input_restart" time="0.002" /><testcase classname="unit_test" name="test_game_lose_life" time="0.002" /><testcase classname="unit_test" name="test_game_lose_life_game_over" time="0.002" /><testcase classname="unit_test" name="test_game_collision_with_obstacle" time="0.002" /><testcase classname="unit_test" name="test_game_fall_in_water" time="0.002" /><testcase classname="unit_test" name="test_game_safe_on_platform" time="0.002" /><testcase classname="unit_test" name="test_game_safe_on_diving_turtle" time="0.002"><failure message="AssertionError: Expected 'lose_life' to have been called once. Called 0 times.">game = &lt;code.Game object at 0x000002B011147740&gt;, turtle = &lt;code.Turtle object at 0x000002B011196DB0&gt;
+
+    def test_game_safe_on_diving_turtle(game, turtle):
+        game.platforms.append(turtle)
+        turtle.is_diving = True
+        game.frog.rect.center = turtle.rect.center
+        with patch.object(game, 'lose_life') as mock_lose_life:
+            game.check_collisions()
+&gt;           mock_lose_life.assert_called_once() # ควรจะตายเพราะเต่าดำน้ำ
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+unit_test.py:223: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;MagicMock name='lose_life' id='2955224307840'&gt;
+
+    def assert_called_once(self):
+        """assert that the mock was called only once.
+        """
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to have been called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'lose_life' to have been called once. Called 0 times.
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:926: AssertionError</failure></testcase><testcase classname="unit_test" name="test_frog_falls_off_screen" time="0.002" /><testcase classname="unit_test" name="test_reach_home_successfully" time="0.002" /><testcase classname="unit_test" name="test_reach_filled_home" time="0.002" /><testcase classname="unit_test" name="test_reach_wall_between_homes" time="0.002" /><testcase classname="unit_test" name="test_level_complete" time="0.011"><failure message="AssertionError: assert 'playing' == 'level_complete'&#10;  &#10;  #x1B[0m#x1B[91m- level_complete#x1B[39;49;00m#x1B[90m#x1B[39;49;00m&#10;  #x1B[92m+ playing#x1B[39;49;00m#x1B[90m#x1B[39;49;00m">game = &lt;code.Game object at 0x000002B011196480&gt;
+
+    def test_level_complete(game):
+        game.frog.rect.top = 0
+        game.frog.rect.centerx = game.homes[0].rect.centerx
+        game.homes_filled = [True, True, True, True, False] # เหลือบ้านหลังสุดท้าย
+        game.check_collisions()
+    
+&gt;       assert game.game_state == "level_complete"
+E       AssertionError: assert 'playing' == 'level_complete'
+E         
+E         #x1B[0m#x1B[91m- level_complete#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+E         #x1B[92m+ playing#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+
+unit_test.py:280: AssertionError</failure></testcase><testcase classname="unit_test" name="test_time_out" time="0.002" /><testcase classname="unit_test" name="test_game_draw_methods_run" time="0.003"><failure message="Failed: Drawing methods raised an exception: argument 1 must be pygame.surface.Surface, not Mock">game = &lt;code.Game object at 0x000002B0111CD430&gt;
+
+    def test_game_draw_methods_run(game):
+        try:
+            # ทดสอบการวาดทุกสถานะเพื่อให้แน่ใจว่าไม่มี error
+            # ไม่ต้อง assert อะไร แค่รันให้ผ่านก็พอ
+&gt;           game.draw()
+
+unit_test.py:295: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;code.Game object at 0x000002B0111CD430&gt;
+
+    def draw(self) -&gt; None:
+        """วาดทุกอย่างลงบนหน้าจอ"""
+        # พื้นหลัง
+        self.screen.fill(COLOR_SAFE_ZONE)
+&gt;       pygame.draw.rect(self.screen, COLOR_WATER, self.water_rect)
+E       TypeError: argument 1 must be pygame.surface.Surface, not Mock
+
+code.py:324: TypeError
+
+During handling of the above exception, another exception occurred:
+
+game = &lt;code.Game object at 0x000002B0111CD430&gt;
+
+    def test_game_draw_methods_run(game):
+        try:
+            # ทดสอบการวาดทุกสถานะเพื่อให้แน่ใจว่าไม่มี error
+            # ไม่ต้อง assert อะไร แค่รันให้ผ่านก็พอ
+            game.draw()
+    
+            game.game_state = "game_over"
+            game.draw()
+    
+            game.game_state = "level_complete"
+            game.draw()
+    
+            # ทดสอบการวาดเมื่อเวลาใกล้หมด
+            game.game_state = "playing"
+            game.start_time = pygame.time.get_ticks() - (game.time_limit / 2)
+            game.draw()
+    
+        except Exception as e:
+&gt;           pytest.fail(f"Drawing methods raised an exception: {e}")
+E           Failed: Drawing methods raised an exception: argument 1 must be pygame.surface.Surface, not Mock
+
+unit_test.py:309: Failed</failure></testcase><testcase classname="unit_test" name="test_game_run_loop" time="0.003" /><testcase classname="unit_test" name="test_main_guard" time="0.002"><failure message="ModuleNotFoundError: No module named 'frogger'">args = (), keywargs = {}
+
+    @wraps(func)
+    def patched(*args, **keywargs):
+&gt;       with self.decoration_helper(patched,
+                                    args,
+                                    keywargs) as (newargs, newkeywargs):
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1372: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\contextlib.py:526: in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\unittest\mock.py:1445: in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+..\..\AppData\Local\Programs\Python\Python312\Lib\pkgutil.py:513: in resolve_name
+    mod = importlib.import_module(modname)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'frogger', package = None
+
+    def import_module(name, package=None):
+        """Import a module.
+    
+        The 'package' argument is required when performing a relative import. It
+        specifies the package to use as the anchor point from which to resolve the
+        relative import to an absolute import.
+    
+        """
+        level = 0
+        if name.startswith('.'):
+            if not package:
+                raise TypeError("the 'package' argument is required to perform a "
+                                f"relative import for {name!r}")
+            for character in name:
+                if character != '.':
+                    break
+                level += 1
+&gt;       return _bootstrap._gcd_import(name[level:], package, level)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ModuleNotFoundError: No module named 'frogger'
+
+..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: ModuleNotFoundError</failure></testcase><testcase classname="unit_test" name="test_game_update_when_not_playing" time="0.002" /></testsuite></testsuites>
